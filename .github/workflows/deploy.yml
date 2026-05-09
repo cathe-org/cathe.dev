@@ -1,23 +1,12 @@
-name: Deploy to DigitalOcean
+name: Deploy Site
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          debug: true
-          script: |
-            cd /var/www/cathe.dev
-            git pull origin main
+    uses: cathe-org/actions/.github/workflows/deploy-site.yml@main
+    with:
+      site_directory: /var/www/cathe.dev
+    secrets: inherit
